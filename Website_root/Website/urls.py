@@ -23,7 +23,7 @@ from django.conf import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.main_page, name = 'main_page'),
+    path('http://Nikoserwis.com/', views.main_page, name = 'main_page'),
     path('uslugi/', views.uslugi, name = 'uslugi'),
     path('informacja/', views.o_nas, name = 'o_nas')
 ] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
