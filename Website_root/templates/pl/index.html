@@ -21,16 +21,16 @@
         <div class="col-sm-12 col-lg-4 t1 text-center text-white mb-4">
           <h1 class="krzywy-tekst">Witamy na naszej stronie głównej</h1>
         </div>
+
         <div class="col-sm-12 col-lg-4">
           <div class="row">
-            <div class="col-sm-12 col-lg-4">
-  
-            </div>
             <div class="col-sm-12 col-lg-6">
               <div class="btn-group-vertical b-btns d-flex justify-content-end text-center ">
                 <a href="{%url 'main_page'%}" class="btn btn-lg mb-2 text-white btn-itd">Wiadomości</a>
                 <a href="{%url 'o_nas'%}" class="btn btn-lg mb-2 text-white btn-itd">O nas</a>
                 <a href="{%url 'uslugi'%}" class="btn btn-lg mb-2 text-white btn-itd">Usługi</a>
+                <a href="{%url 'promocje'%}" class="btn btn-lg mb-2 text-white btn-itd">Promocje</a>
+                <a href="{%url 'humor'%}" class="btn btn-lg mb-2 text-white btn-itd">Humor</a>
                 <a href="#footer" class="btn btn-lg mb-2 text-white btn-itd">Kontakt</a>
               </div>
             </div>
@@ -62,11 +62,11 @@
         {%endfor%}
       </div>
     </div>
-  </section>
+  </section> 
   
 
 
-  <footer id="footer" class="bg-primary text-white">
+  <footer  class="bg-primary text-white">
       <div class="container">
         <div class="row">
           <div class="col-md-2">
@@ -81,15 +81,44 @@
               </div>
             </div>
           </div>
-          <div class="col-md-8">
-            <div class="map-div">
-              <iframe class="map" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2561.915607429088!2d18.594059699999995!3d50.0504122!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47114dcf5939cbc3%3A0x61a32faf3cd289e0!2sNikoserwis!5e0!3m2!1suk!2spl!4v1691093140425!5m2!1suk!2spl&" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+          <div id="footer" class="col-md-6" style="margin-bottom: 20px; margin-top: 20px;">
+            <div class="map-div d-flex justify-content-center">
+              <iframe class="map" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2561.915607429088!2d18.594059699999995!3d50.0504122!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47114dcf5939cbc3%3A0x61a32faf3cd289e0!2sNikoserwis!5e0!3m2!1suk!2spl!4v1691093140425!5m2!1suk!2spl&" width="800px" height="320px" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="bgc d-flex justify-content-center">
+              <h3 class="text-center">Umów wizytę <a href="{%url 'rejestracja'%}">tutaj</a></h3>
             </div>
           </div>
         </div>
       </div>
     </footer>
-    
+
+    <div id="cookieModal" class="modal">
+      <div class="modal-content">
+          <h2>Подтверждение использования файлов cookie</h2>
+          <p>Мы используем файлы cookie для улучшения вашего опыта. Нажмите "Принять", чтобы продолжить.</p>
+          <button id="acceptButton" class="btn btn-primary">Принять</button>
+      </div>
+    </div>
+
+
+  <script>
+      document.addEventListener('DOMContentLoaded', function() {
+          var modal = document.getElementById('cookieModal');
+          var acceptButton = document.getElementById('acceptButton');
+          
+          if (!localStorage.getItem('cookieAccepted')) {
+              modal.style.display = 'block';
+          }
+
+          acceptButton.addEventListener('click', function() {
+              modal.style.display = 'none';
+              localStorage.setItem('cookieAccepted', 'true');
+          });
+      });
+  </script>
 
   <script src="{%static 'js/bootstrap.bundle.min.js'%}"></script>
   

@@ -10,5 +10,5 @@ class News(models.Model):
         return self.header
 
     class Meta:
-        verbose_name = 'Wiadomość'
+        verbose_name = 'Wiadomości'
         verbose_name_plural = 'Wiadomości'
