@@ -1,8 +1,13 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django import forms
+from django.contrib import messages
 from .models import News
+from django.http import HttpResponse
 from crm.models import CrmSystem
-from django.core.mail import send_mail
-
+import random
+import smtplib
+from email.mime.text import MIMEText
+    
 def main_page(request):
     news = News.objects.all().order_by('-date')
     return render(request, 'pl/index.html', {'news': news})
@@ -22,43 +27,57 @@ def humor(request):
 def rejestracja(request):
     return render(request, 'pl/rejestracja.html')
 
-def wiadomosc(request):
-    return render(request, 'pl/wiadomosc.html')
-
 def log_in(request):
     return render(request, 'pl/login.html')
 
+
 def kod(request):
-    firstname = request.POST['firstname']
-    lastname = request.POST['lastname']
-    phone = request.POST['phone']
-    email = request.POST['email']
-    password = request.POST['password']
-    
-    element = CrmSystem(crm_name=firstname, crm_lastname=lastname, crm_number=phone, crm_email=email, crm_password=password)
-    element.save()
+    if request.method == "POST":
+        firstname = request.POST['firstname']
+        lastname = request.POST['lastname']
+        phone = request.POST['phone']
+        email = request.POST['email']
+        password = request.POST['password']
 
-    subject = 'Тема письма'
-    message = 'Текст сообщения'
-    from_email = 'nikoserwisbot@gmail.com'
-    recipient_list = ['rdvelihanov1245@gmail.com']
+        verify_code = str(random.randint(1000, 9999))
 
-    try:
-        send_mail(subject, message, from_email, recipient_list)
-        email_sent = True
-    except Exception as e:
-        email_sent = False
-        error_message = str(e)
+        send_email(email, verify_code)
 
-    return render(request, './kod.html', {
-        'firstname': firstname,
-        'lastname': lastname,
-        'email': email,
-        'phone': phone,
-        'password': password,
-        'email_sent': email_sent,
-        'error_message': error_message if not email_sent else None,
-    })
+        request.session['verify_code'] = verify_code  # Сохраняем код в сессии
+
+        return render(request, 'pl/kod.html', {
+            'firstname': firstname,
+            'lastname': lastname,
+            'email': email,
+            'phone': phone,
+            'password': password,
+        })
+    else:
+        return render(request, 'pl/error.html')
+
+
+def send_email(receiver_email, message):
+    sender = "nikoserwisbot@gmail.com"
+    password = "ougg nauw eezq ceep"
+    server = smtplib.SMTP("smtp.gmail.com", 587)
+    server.starttls()
+    msg = MIMEText(message)
+    msg['Subject'] = "Twój kod werifikacyjny"
+    server.login(sender, password)
+    server.sendmail(sender, receiver_email, msg.as_string())
+    server.quit()
+
+
+def wiadomosc(request):
+    if request.method == "POST":
+        numbers = request.POST['verify_code']
+        verify_code = request.session.get('verify_code')
+        if numbers == verify_code:
+            return render(request, 'pl/wiadomosc.html')
+        else:
+            return render(request, 'pl/error.html')
+    else:
+        return render(request, 'pl/error.html')    
 
 def resetpw(request):
     return render(request, 'pl/resetpw.html')
@@ -72,5 +91,8 @@ def kod2(request):
 def writeemail(request):
     return render(request, 'pl/writeemail.html')
 
-def accept(request):
-    return render(request, 'pl/accept.html')
+def polityka(request):
+    return render(request, 'pl/polityka-prywatnosci.html')
+
+def error(request):
+    return render(request, "pl/error.html")

@@ -1,24 +1,9 @@
-"""
-URL configuration for Website project.
-
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/4.2/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
-"""
 from django.contrib import admin
 from django.urls import path
 from informacja import views
 from django.conf.urls.static import static
 from django.conf import settings
+import uuid
 
 
 urlpatterns = [
@@ -29,14 +14,15 @@ urlpatterns = [
     path('promocje/', views.promocje, name = 'promocje'),
     path('humor/', views.humor, name = 'humor'),
     path('rejestracja/', views.rejestracja, name = 'rejestracja'),
-    path('wiadomosc/', views.wiadomosc, name = 'wiadomosc'),
+    path('wiadomosc/', views.wiadomosc, name='wiadomosc'),
     path('login/', views.log_in, name = 'login'),
     path('kod/', views.kod, name = 'kod'),
     path('zmien-haslo/', views.resetpw, name = 'resetpw'),
     path('nowe-haslo/', views.newpw, name = 'newpw'),
     path('wpisz-email/', views.writeemail, name = 'writeemail'),
     path('wpisz-kod/', views.kod2, name = 'kod2'),
-    path('akceptacja/', views.accept, name = 'accept'),
+    path('polityka-prywatnosci/', views.polityka, name = 'polityka'),
+    path('nipoprawny-kod/', views.error, name = 'error'),    
 ] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
 
 if settings.DEBUG:

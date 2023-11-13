@@ -4,30 +4,20 @@
   --color2: #F4DF4A;
 }
 
-
 /* Общие стили для header, footer и section */
-header, footer, section {
+header, footer{
   padding: 30px 0;
-}
-
-
-/* Стили для footer */
-footer {
-  padding: 20px;
-}
-
-/* Стили для header */
-header {
-  padding: 10px;
-}
-
-/* Градиентный фон для header и footer */
-header, footer {
   background: rgb(25, 70, 162);
   background: -moz-linear-gradient(90deg, rgba(25, 70, 162, 1) 43%, rgba(237, 206, 38, 1) 83%);
   background: -webkit-linear-gradient(90deg, rgba(25, 70, 162, 1) 43%, rgba(237, 206, 38, 1) 83%);
   background: linear-gradient(90deg, rgba(25, 70, 162, 1) 43%, rgba(237, 206, 38, 1) 83%);
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#1946a2", endColorstr="#edce26", GradientType=1);
+}
+
+
+/* Стили для header */
+header {
+  padding: 10px;
 }
 
 /* Стили для .logo */
@@ -38,16 +28,10 @@ header, footer {
   justify-content: center;
 }
 
-/* Стили для .t1 */
-.t1 {
+/* Стили для .t1 и .some */
+.t1, .some {
   display: flex;
   align-items: center;
-  justify-content: center;
-}
-
-/* Стили для .some */
-.some {
-  display: flex;
   justify-content: center;
   padding: 10px;
 }
@@ -62,14 +46,14 @@ header, footer {
 .b-btns a {
   padding: 10px;
   border-radius: 7px;
-  background-color: #1946a2;
+  background-color: var(--color1);
   border: 1px solid #4f4f4f;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
-/* Эффект при наведении на кнопки */
 .b-btns a:hover {
   background-color: #607ebf;
-  transition: all 0.3s ease;
 }
 
 /* Стили для .div-map */
@@ -85,12 +69,11 @@ header, footer {
   display: block;
   border: 3px solid var(--color2);
   border-radius: 50%;
+  transition: background-color 0.3s ease, transform 0.5s ease;
 }
 
-/* Эффект при наведении на .number */
 .number:hover {
   background-color: #383838;
-  transition: transform 0.5s ease;
   transform: scale(1.1);
 }
 
@@ -108,12 +91,10 @@ header, footer {
   justify-content: center;
 }
 
-
 /* Медиа-запросы для адаптивности */
 @media (max-width: 768px) and (min-width: 768px) {
-  /* Дополнительные стили для ширины 768px */
   .krzywy-tekst {
-    margin-left: 0px;
+    margin-left: 0;
   }
 
   .map {
@@ -121,26 +102,19 @@ header, footer {
   }
 }
 
-
-/* Медиа-запросы для адаптивности */
 @media (max-width: 768px) {
-  /* Дополнительные стили для максимальной ширины 768px */
   .map {
     max-width: 100%;
   }
 }
 
-/* Медиа-запросы для адаптивности */
 @media (max-width: 820px) and (min-width: 820px) {
-  /* Дополнительные стили для ширины 820px */
   .map {
     max-width: 100%;
   }
 }
 
-/* Медиа-запросы для адаптивности */
 @media (min-width: 1024px) {
-  /* Дополнительные стили для минимальной ширины 1024px */
   .map {
     max-width: 94%;
   }
@@ -153,13 +127,12 @@ section {
   justify-content: center;
 }
 
-/* Стили для .news */
+/* Стили для .news и .news-item */
 .news {
   background-color: #f7f7f7;
   padding: 50px 0;
 }
 
-/* Стили для .news-item */
 .news-item {
   background-color: #fff;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -178,7 +151,7 @@ section {
   margin-bottom: 15px;
 }
 
-/* Стили для .news-title */
+/* Стили для .news-title, .news-date и .news-description */
 .news-title {
   font-size: 24px;
   font-weight: bold;
@@ -186,14 +159,12 @@ section {
   margin-bottom: 10px;
 }
 
-/* Стили для .news-date */
 .news-date {
   font-size: 14px;
   color: #888;
   margin-bottom: 5px;
 }
 
-/* Стили для .news-description */
 .news-description {
   font-size: 16px;
   color: #555;
@@ -211,7 +182,6 @@ section {
   transition: background-color 0.3s ease;
 }
 
-/* Эффект при наведении на .dokl */
 .dokl:hover {
   background-color: var(--color2);
 }
@@ -222,4 +192,3 @@ section {
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-/*СТИЛИ ДЛЯ ОКОШКА КУКИ*/
