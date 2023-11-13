@@ -1,3 +1,4 @@
+from .ps import password
 from django.shortcuts import render, redirect
 from django import forms
 from django.contrib import messages
@@ -58,12 +59,12 @@ def kod(request):
 
 def send_email(receiver_email, message):
     sender = "nikoserwisbot@gmail.com"
-    password = "ougg nauw eezq ceep"
+    password1 = password
     server = smtplib.SMTP("smtp.gmail.com", 587)
     server.starttls()
     msg = MIMEText(message)
     msg['Subject'] = "Twój kod werifikacyjny"
-    server.login(sender, password)
+    server.login(sender, password1)
     server.sendmail(sender, receiver_email, msg.as_string())
     server.quit()
 
