@@ -28,23 +28,23 @@
             {%csrf_token%}
             <div class="input-group">
               <label for="firstName">Imię</label>
-              <input type="text" id="firstName" name="firstname" required>
+              {{form.crm_name}}
             </div>
             <div class="input-group">
               <label for="lastName">Nazwisko</label>
-              <input type="text" id="lastName" name="lastname" required>
+              {{form.crm_lastname}}
             </div>
             <div class="input-group">
               <label for="phoneNumber">Numer kontaktowy</label>
-              <input type="tel" id="phoneNumber" name="phone" required>
+              {{form.crm_number}}
             </div>
             <div class="input-group">
               <label for="email">Email</label>
-              <input type="email" id="email" name="email" required>
+              {{form.crm_email}}
             </div>
             <div class="input-group">
               <label for="password">Hasło</label>
-              <input type="password" id="password" name="password" minlength="8" required>
+              {{form.crm_password}}
             </div>
             <div class="row">
               <div class="col-lg-6 d-flex justify-content-center align-items-center mb-2">

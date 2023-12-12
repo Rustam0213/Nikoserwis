@@ -24,27 +24,15 @@
   <div class="row">
       <div class="col-sm-2 col-md-6 col-lg-4 mb-4">
         <div class="container">
-          <form action="{%url 'kod'%}" method="POST">
+          <form action="{%url 'wiadomosc'%}" method="POST">
             {%csrf_token%}
             <div class="input-group">
-              <label for="firstName">Imię</label>
-              <input type="text" id="firstName" name="firstname" required>
-            </div>
-            <div class="input-group">
-              <label for="lastName">Nazwisko</label>
-              <input type="text" id="lastName" name="lastname" required>
-            </div>
-            <div class="input-group">
-              <label for="phoneNumber">Numer kontaktowy</label>
-              <input type="tel" id="phoneNumber" name="phone" required>
-            </div>
-            <div class="input-group">
               <label for="email">Email</label>
-              <input type="email" id="email" name="email" required>
+              {{login_form.crm_email}}
             </div>
             <div class="input-group">
               <label for="password">Hasło</label>
-              <input type="password" id="password" name="password" minlength="8" required>
+              {{login_form.crm_password}}
             </div>
             <div class="row">
               <div class="col-lg-6 d-flex justify-content-center align-items-center mb-2">
@@ -53,7 +41,7 @@
             </div>
             <div class="row">
               <div class="col-lg-8 d-flex justify-content-center align-items-center mb-2">
-                <h6><a href="{%url 'writeemail'%}" class="">Nie pamiętasz hasła?</a></h1>
+                <h6><a href="{%url 'writeemail'%}" class="">Nie pamiętasz hasła?</a></h6>
               </div>
             </div>
           </form>

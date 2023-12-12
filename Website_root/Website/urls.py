@@ -3,7 +3,6 @@ from django.urls import path
 from informacja import views
 from django.conf.urls.static import static
 from django.conf import settings
-import uuid
 
 
 urlpatterns = [
@@ -20,7 +19,6 @@ urlpatterns = [
     path('zmien-haslo/', views.resetpw, name = 'resetpw'),
     path('nowe-haslo/', views.newpw, name = 'newpw'),
     path('wpisz-email/', views.writeemail, name = 'writeemail'),
-    path('wpisz-kod/', views.kod2, name = 'kod2'),
     path('polityka-prywatnosci/', views.polityka, name = 'polityka'),
     path('nipoprawny-kod/', views.error, name = 'error'),    
 ] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
