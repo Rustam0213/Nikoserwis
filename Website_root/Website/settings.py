@@ -27,11 +27,13 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+#CRM system settings
+AUTH_USER_MODEL = 'crm.User'
+LOGOUT_REDIRECT_URL = '/'
 
 # Application definition
 
 INSTALLED_APPS = [
-    'crm.apps.CrmConfig',
     'informacja.apps.InformacjaConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -39,6 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'crm',
+    'bootstrap_datepicker_plus',
 ]
 
 MIDDLEWARE = [
@@ -56,7 +60,7 @@ ROOT_URLCONF = 'Website.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['templates'],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -139,9 +143,6 @@ EMAIL_PORT = 465
 EMAIL_USE_SSL = True  
 EMAIL_USE_TLS = False 
 
-
-EMAIL_HOST_USER = 'nikoserwisbot@gmail.com'
-EMAIL_HOST_PASSWORD = '5pf5_4L2!s^K@rP3*PyJ'
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.db' #COOKIES
 SESSION_COOKIE_NAME = 'my_cookie' 

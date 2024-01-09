@@ -1,8 +1,16 @@
 from django.contrib import admin
-from .models import CrmSystem
+from django.contrib.auth.admin import UserAdmin
+from .models import Applications, User
 
-class CrmSystemAdmin(admin.ModelAdmin):
-    list_display = ('crm_name', 'crm_lastname', 'crm_number', 'crm_email')  # Отображаемые поля в списке
-    exclude = ('crm_password',)  # Исключаем поле пароля из редактирования
+class CustomUserAdmin(UserAdmin):
+    list_display = ['first_name', 'last_name', 'email','phone', 'is_staff']  # Добавьте поля, которые вы хотите отображать
+    search_fields = ['first_name', 'last_name', 'email','phone']
 
-admin.site.register(CrmSystem, CrmSystemAdmin)
+class ApplicationsAdmin(admin.ModelAdmin):
+    list_display = ['from_who', 'vin_code', 'reg_num', 'mark', 'model', 'year', 'displacement']
+    search_fields = ['vin_code', 'reg_num', 'mark', 'model']
+
+admin.site.register(User, CustomUserAdmin)
+admin.site.register(Applications, ApplicationsAdmin)
+
+admin.site.site_header = 'Administracja Nikoserwis'

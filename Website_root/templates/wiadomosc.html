@@ -1,0 +1,242 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="{%static 'N.png'%}" type="image/x-icon">
+    <link rel="stylesheet" href="{%static 'css/style.css'%}">
+    <link rel="stylesheet" href="{%static 'css/bootstrap.min.css'%}">
+    <link rel="stylesheet" href="{%static 'css/fontello.css'%}">
+    <title>Wiadomość</title>
+
+    <body> 
+      <header>
+        <div class="row">
+         
+        </div>
+
+        <div class="header-content"> 
+           <div class="col-lg-6 d-flex">
+              <div class="profile-block">
+                <div class="content m-3 d-flex align-items-center">
+                  <h4>Witaj, {{user.first_name}}</h4>
+                  <form action="{%url 'logout'%}" method="post">
+                    {%csrf_token%}
+                    <button class="mb-2 logout-btn" type="submit">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-door-enter" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"> <path stroke="none" d="M0 0h24v24H0z" fill="none"/> <path d="M13 12v.01" /> <path d="M3 21h18" /> <path d="M5 21v-16a2 2 0 0 1 2 -2h6m4 10.5v7.5" /> <path d="M21 7h-7m3 -3l-3 3l3 3" /> </svg>
+                    </button>
+                  </form>
+                </div>
+
+              </div> 
+            </div>
+          <div class="row">
+
+            <div class="col-lg-12 d-flex justify-content-center text-white"> 
+              <h1 class="krzywy-tekst">Tu możesz umówić wizytę</h1>
+            </div>
+          </div>
+        </div>
+      </header>
+      <div class="row">
+        <div class="col-sm-2 col-md-6 col-lg-4 mb-4">
+          <div class="container">
+            <form action="{%url 'wiadomosc'%}" method="POST">
+              {% csrf_token %}
+              
+              <div class="input-group">
+                <label for="vinCode">VIN-kod auta</label>
+                {{form.vin_code}}
+              </div>
+              
+              <div class="row">
+                <div class="col-md-6">
+                  <label for="regNumber">Rejestracyjny numer auta</label>
+                  {{form.reg_num}}
+                </div>
+                
+                <div class="col-md-6">
+                  <label for="carMake">Marka</label>
+                  {{form.mark}}
+                </div>
+              </div>
+              
+              <div class="row">
+                <div class="col-md-6">
+                  <label for="carModel">Model</label>
+                  {{form.model}}
+                </div>
+                
+                <div class="col-md-6">
+                  <label for="carYear">Rok</label>
+                    {{form.year}}
+                </div>
+              </div>
+              
+              <div class="row">
+                <div class="col-md-6">
+                  <label for="engineVolume">Pojemność silnika w cm³</label>
+                  {{form.displacement}}
+                </div>
+                
+                <div class="col-md-6">
+                  <label for="enginePower">KM</label>
+                  {{form.hp}}
+                </div>
+              </div>
+              
+              <div class="row">
+                <div class="col-md-12 text-input">
+                  <label for="message">Szczegóły problemu</label>
+                  {{form.details}}
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                    <label for="desired_date">Na kiedy chcesz się umówić</label>
+                    {{ form.desired_appointment_date }}
+                </div>
+              </div>
+              
+              <div class="row">
+                <div class="col-lg-12 d-flex justify-content-center align-items-center m-2">
+                  <button type="submit">Umów</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    
+      <style>
+
+        :root {
+          --color1: #2049A0;
+          --color2: #F4DF4A;
+        }
+
+        .color2{
+          background-color: var(--color2);
+          color: black;
+        }
+    
+        body{
+            background: rgb(25, 70, 162);
+            background: -moz-linear-gradient(90deg, rgba(25, 70, 162, 1) 43%, rgba(237, 206, 38, 1) 83%);
+            background: -webkit-linear-gradient(90deg, rgba(25, 70, 162, 1) 43%, rgba(237, 206, 38, 1) 83%);
+            background: linear-gradient(90deg, rgba(25, 70, 162, 1) 43%, rgba(237, 206, 38, 1) 83%);
+            filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#1946a2", endColorstr="#edce26", GradientType=1);
+        }
+
+        .profile-block{
+          background-color: var(--color2);
+          box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+
+        
+
+        .logout-btn{
+          margin-left: 10px;
+        }
+
+        .container {
+          background-color: #edce26;
+          padding: 30px;
+          border-radius: 10px;
+          box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+          text-align: center;
+        }
+    
+        h1 {
+          color: #ffffff;
+          margin-bottom: 10px;
+        }
+    
+        form {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+        }
+        
+        .row{
+            margin-bottom: 10px;
+        }
+
+        .input-group {
+          margin: 8px 0;
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          width: 100%;
+        }
+    
+        label {
+          color: black;
+          margin-bottom: 5px;
+        }
+    
+        input,
+        textarea {
+          padding: 10px;
+          border: 2px solid black;
+          background-color: #466dbd;
+          color: #ffffff;
+          border-radius: 5px;
+          width: 100%;
+        }
+    
+        button {
+          margin-top: 7px;
+          padding: 10px 20px;
+          border: none;
+          background-color: #1946a2;
+          color: #ffffff;
+          border-radius: 5px;
+          cursor: pointer;
+          transition: background-color 0.3s ease;
+        }
+    
+        button:hover {
+          background-color: #0063cc;
+        }
+    
+        .captcha{
+          width: 150px;
+          height: 70px;
+          padding: 10px;
+          border: 3px solid black;
+        }
+    
+        .btn-log{
+          padding: 10px 20px;
+          border: none;
+          background-color: #1946a2;
+          color: #ffffff;
+          border-radius: 5px;
+          cursor: pointer;
+          transition: background-color 0.3s ease;
+        }
+    
+        .h5-form{
+          margin-top: 20px
+        }
+    
+        .a-form{
+          text-decoration: none;
+          color: white
+        }
+        
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button {
+          -webkit-appearance: none;
+          margin: 0;
+        }
+      
+        
+        
+    </style>
+    
+    </body>
+    </html>
+    

@@ -1,21 +1,34 @@
 from django.db import models
-from django.contrib.auth.hashers import make_password
+from django.contrib.auth.models import AbstractUser
+from django.utils.translation import gettext_lazy as _
+from django.utils import timezone
 
-class CrmSystem(models.Model):
-    crm_name = models.CharField(max_length=50, verbose_name='Imię')  # Имя
-    crm_lastname = models.CharField(max_length=50, verbose_name='Nazwisko')  # Фамилия
-    crm_number = models.CharField(max_length=15, verbose_name='Numer')  # Номер контактного телефона
-    crm_email = models.EmailField(verbose_name='Email')  # Электронная почта
-    crm_password = models.CharField(max_length=128, verbose_name='Hasło')  # Пароль
+class User(AbstractUser):
+      email = models.EmailField(_("email address"), unique = True)
+      USERNAME_FIELD = "email"
+      REQUIRED_FIELDS = ["username"]
 
-    def save(self, *args, **kwargs):
-        if not self.pk:
-            self.crm_password = make_password(self.crm_password)
-        super().save(*args, **kwargs)
+      class Meta:
+            verbose_name = 'Użytkownika'
+            verbose_name_plural = 'Użytkownicy'
 
-    def __str__(self):
-        return self.crm_email
+class Applications(models.Model):
+      from_who = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Od kogo')
+      date_created = models.DateTimeField(default=timezone.now, verbose_name='Data utworzenia')
+      desired_appointment_date = models.DateField(null=True, blank=True, verbose_name='Data spotkania')
+      vin_code = models.CharField(max_length=17, verbose_name='VIN')
+      reg_num = models.CharField(max_length=20, verbose_name='Numer rejestracyjny')
+      mark = models.CharField(max_length=100, verbose_name='Marka')
+      model = models.CharField(max_length=100, verbose_name='Model')
+      year = models.CharField(max_length=100, verbose_name='Rok')
+      displacement = models.CharField(max_length=100, verbose_name='Pojemność silnika')
+      hp = models.CharField(max_length=100, verbose_name='KM')
+      details = models.TextField(verbose_name='Szczegóły problemu')
+      
 
-    class Meta:
-        verbose_name = 'Osobę'
-        verbose_name_plural = 'Osoby'
+      def __str__(self):
+            return "Nowy wniosek"
+
+      class Meta:
+            verbose_name = 'wniosek'
+            verbose_name_plural = 'wnioski'
