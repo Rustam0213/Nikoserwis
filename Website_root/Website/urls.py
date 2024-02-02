@@ -7,14 +7,12 @@ from django.conf import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('users/', include('crm.urls')),
+    path('uzytkownicy/', include('crm.urls')),
     path('', views.main_page, name = 'main_page'),
     path('uslugi/', views.uslugi, name = 'uslugi'),
-    path('informacja/', views.o_nas, name = 'o_nas'),
+    path('nowosci/', views.nowosci, name = 'nowosci'),
     path('promocje/', views.promocje, name = 'promocje'),
     path('humor/', views.humor, name = 'humor'),
-    path('wiadomosc/', views.wiadomosc, name='wiadomosc'),
-    path('kod/', views.kod, name = 'kod'),
     path('polityka-prywatnosci/', views.polityka, name = 'polityka'),
     path('nipoprawny-kod/', views.error, name = 'error'),    
 ] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

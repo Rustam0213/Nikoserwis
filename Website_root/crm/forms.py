@@ -5,6 +5,7 @@ from django.utils.translation import gettext_lazy as _
 from django.utils import timezone
 from django.forms.widgets import SplitDateTimeWidget
 from django.core.exceptions import ValidationError
+from datetime import date
 
 class UserCreationForm(UserCreationForm):
 
@@ -56,13 +57,12 @@ class UserCreationForm(UserCreationForm):
         phone = self.cleaned_data.get('phone')
         return phone
 
-class AuthenticationForm(AuthenticationForm):
-      pass
+class UserProfileForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name', 'email', 'phone']
 
-class CustomAuthenticationForm(AuthenticationForm):
-    pass
-
-
+day = date.today()
 
 class ApplicationForm(forms.ModelForm):
     class Meta:
@@ -73,7 +73,7 @@ class ApplicationForm(forms.ModelForm):
     displacement = forms.DecimalField(required=True, max_digits=5, decimal_places=2)
     hp = forms.IntegerField(required=True)
     desired_appointment_date = forms.DateField(
-        widget=forms.widgets.DateInput(attrs={'type': 'date', 'id': 'id_desired_date'}),
+        widget=forms.widgets.DateInput(attrs={'type': 'date', 'id': 'id_desired_date', 'value' : day, 'min':day}),
         label='Data'
     )
 
@@ -83,3 +83,6 @@ class ApplicationForm(forms.ModelForm):
             raise forms.ValidationError("Wprowadź poprawny rok.")
         return year
 
+
+class VerificationCodeForm(forms.Form):
+    verification_code = forms.IntegerField()
