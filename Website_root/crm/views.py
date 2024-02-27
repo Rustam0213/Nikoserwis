@@ -1,9 +1,10 @@
+from django.core.cache import cache
+from django.utils import timezone
 from django.shortcuts import render, redirect
 from .forms import ApplicationForm, UserCreationForm, UserProfileForm, VerificationCodeForm
 from django.contrib.auth import authenticate, login
 from django.views import View
 from django.contrib.auth.forms import AuthenticationForm
-from .ps import password
 import smtplib
 import random
 from email.mime.text import MIMEText
@@ -12,6 +13,8 @@ from django.shortcuts import render, get_object_or_404
 from .models import Applications, User
 from django.http import Http404
 from django.contrib import messages
+from django.core.mail import send_mail
+
 
 @login_required
 def user_profile(request):
@@ -53,26 +56,12 @@ def wiadomosc(request):
             application.from_who = user
             application.save()
             return redirect('main_page')
-        else:
-            print(form.errors)
+
     else:
         form = ApplicationForm()
     
     return render(request, 'wiadomosc.html', {'user': user, 'form': form})
 
-def send_email(receiver_email, message):
-    sender = "nikoserwisbot@gmail.com"
-    password1 = password
-    server = smtplib.SMTP("smtp.gmail.com", 587)
-    server.starttls()
-    
-    message = str(message)
-    
-    msg = MIMEText(message)
-    msg['Subject'] = "Twój kod werifikacyjny"
-    server.login(sender, password1)
-    server.sendmail(sender, receiver_email, msg.as_string())
-    server.quit()
 
 class Register(View):
     template_name = 'registration/register.html'
@@ -86,15 +75,32 @@ class Register(View):
 
         if form.is_valid():
             email = form.cleaned_data['email']
-            rand = random.randint(1000, 9999)
-            request.session['verification_code'] = rand
-            send_email(email, rand)
-            user = form.save()
-            return redirect('kod')
+            
+            last_sent_time = cache.get(email + '_last_sent_time')
+            if last_sent_time is None or (timezone.now() - last_sent_time).seconds >= 120:
+                rand = random.randint(1000, 9999)
+                request.session['verification_code'] = rand
+                request.session['email'] = email
+                request.session['password'] = form.cleaned_data['password1']
+                request.session['first_name'] = form.cleaned_data['first_name']
+                request.session['last_name'] = form.cleaned_data['last_name']
+                request.session['phone'] = form.cleaned_data['phone']
+                send_mail(
+                    'Twój kod werifikacyjny',
+                    str(rand),
+                    'nikoserwisbot@gmail.com',
+                    [email],
+                    fail_silently=False,
+                )
+                
+                cache.set(email + '_last_sent_time', timezone.now(), 120)  # 120 секунд = 2 минуты
+
+                return redirect('kod')
+            else:
+                messages.error(request, 'Kod już był wysłany. Spróbuj ponownie za 2 minuty.')
 
         context = {'form': form}
         return render(request, self.template_name, context)
-
 
 def kod(request):
     if request.method == 'POST':
@@ -104,21 +110,41 @@ def kod(request):
             random_code = request.session.get('verification_code')
             email = request.session.get('email')
             password = request.session.get('password')
+            first_name = request.session.get('first_name')
+            last_name = request.session.get('last_name')
+            phone = request.session.get('phone')
 
             if get_code == random_code:
+                user = User.objects.create_user(
+                    username=email,
+                    email=email,
+                    password=password,
+                    first_name=first_name,
+                    last_name=last_name,
+                    phone=phone
+                )
+
+                # Аутентифицируем и логиним пользователя
                 user = authenticate(request, username=email, password=password)
                 if user is not None:
                     login(request, user)
+
+                    # Очищаем данные из сессии
                     del request.session['verification_code']
                     del request.session['email']
                     del request.session['password']
-                    return redirect('profile')
-            else:
-                messages.error(request, 'Incorrect verification code. Please try again.')
-        else:
-            messages.error(request, 'Form error.')
-    else:
+                    del request.session['first_name']
+                    del request.session['last_name']
+                    del request.session['phone']
 
+                    return redirect('profile')
+                else:
+                    messages.error(request, 'Stworzenie użytkownika nie udało się')
+            else:
+                messages.error(request, 'Wpisałeś niepoprawny kod')
+        else:
+            messages.error(request, 'Błąd formularzu')
+    else:
         form = VerificationCodeForm()
 
     return render(request, 'registration/kod.html', {'form': form})

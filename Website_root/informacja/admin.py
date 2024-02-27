@@ -1,11 +1,9 @@
 from django.contrib import admin
-from .models import News
+from .models import News, Promotion, Humor
 from django.utils.safestring import mark_safe
-# Register your models here.
 
 
-
-class NewsAdmin(admin.ModelAdmin):
+class InfoAdminSettings(admin.ModelAdmin):
     list_display = ('header', 'date', 'get_img')
 
     def get_img(self, obj):
@@ -14,4 +12,6 @@ class NewsAdmin(admin.ModelAdmin):
         else:
             pass
 
-admin.site.register(News,NewsAdmin)
+admin.site.register(News,InfoAdminSettings)
+admin.site.register(Promotion,InfoAdminSettings)
+admin.site.register(Humor,InfoAdminSettings)

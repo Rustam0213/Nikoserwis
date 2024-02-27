@@ -1,3 +1,4 @@
+import re
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from .models import User, Applications
 from django import forms
@@ -13,6 +14,13 @@ class UserCreationForm(UserCreationForm):
         label=_("Email"),
         max_length=254,
         widget=forms.EmailInput(attrs={"autocomplete": "email"}),
+        required=True,
+    )
+
+    phone = forms.CharField(
+        label=_("Phone"),
+        max_length=15,
+        widget=forms.TextInput(attrs={"autocomplete": "tel", "pattern": "[0-9]*"}),
         required=True,
     )
 

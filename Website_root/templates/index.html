@@ -1,10 +1,97 @@
-{%extends 'base.html'%}
+{% extends 'base.html'%}
 {% load static %}
 
-{%block header%}Witamy na naszej stronie głównej{%endblock%}
+{% block header %}O nas i naszej firmie{% endblock %}
 
-{%block content%}
+{% block content %}
+
+<img src="{%static ''%}" alt="Opony">
+
 <section>
-
+  <div class="cookie-popup" id="cookiePopup">
+    <p>W związku z rozporządzeniem Parlamentu Europejskiego i Rady (UE) 2016/679 z dnia 27 kwietnia 2016 r w sprawie ochrony osób fizycznych związku z przetwarzaniem danych osobowych i w sprawie swobodnego przepływu takich danych oraz uchylenia dyrektywy 95/46/WE (ogólne rozporządzenie o ochronie danych osobowych) - dalej RODO - zobowiązani jesteśmy poinformować, że posiadamy Państwa dane osobowe.
+      Strona wykorzystuje pliki cookies w celu prawidłowego jego działania Szczegóły znajdziesz w polityce prywatności. Jeśli nie wyrażasz zgody kliknij w przycisk Polityka Cookies</p>
+    <a href="{%url 'polityka'%}">Polityka Cookies</a>
+    <button class="btn m-2" onclick="rejectCookies()">Nie akceptuję</button>
+    <button class="btn m-2" onclick="acceptCookies()">Rozumiem i akceptuję</button>
+  </div>
 </section>
-{%endblock%}
+
+<style>
+
+  button{
+    font-size: 15px;
+  }
+
+  p{
+    font-size: 16px;
+  }
+
+  .cookie-popup {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #333;
+    color: #fff;
+    padding: 10px;
+    text-align: center;
+    display: none; /* Скрываем по умолчанию */
+  }
+
+  .cookie-popup p {
+    margin: 0;
+  }
+
+  .cookie-popup button {
+    background-color: #ccc;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+  }
+</style>
+
+<script>
+  // Функция для установки куки согласия
+  function setCookie(name, value, days) {
+    var expires = "";
+    if (days) {
+      var date = new Date();
+      date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+      expires = "; expires=" + date.toUTCString();
+    }
+    document.cookie = name + "=" + (value || "") + expires + "; path=/";
+  }
+
+  // Функция для получения значения куки по имени
+  function getCookie(name) {
+    var nameEQ = name + "=";
+    var ca = document.cookie.split(';');
+    for (var i = 0; i < ca.length; i++) {
+      var c = ca[i];
+      while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+      if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+    }
+    return null;
+  }
+
+  // Функция для скрытия всплывающего окна и установки куки согласия на 1 год
+  function acceptCookies() {
+    setCookie("cookieConsent", "true", 365); // Кука согласия действует 1 год
+    document.getElementById("cookiePopup").style.display = "none";
+  }
+
+  function rejectCookies() {
+    document.getElementById("cookiePopup").style.display = "none";
+  }
+
+  // Проверяем, есть ли уже кука согласия
+  window.onload = function() {
+    var consent = getCookie("cookieConsent");
+    if (!consent) {
+      document.getElementById("cookiePopup").style.display = "block";
+    }
+  };
+</script>
+
+{% endblock %}

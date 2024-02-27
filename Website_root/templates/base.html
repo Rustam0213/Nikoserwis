@@ -13,7 +13,11 @@
 <body>
   
 
-  <header>
+  <header>                
+    {%if user.is_staff%}
+      <a href="{%url 'calendar'%}" class="btn btn-lg btn-success">Kalendarz</a>
+      <a href="/nikoserwisadmin" class="btn btn-lg btn-success">Administracja</a>
+    {%endif%}
     <div class="header-content">
       <div class="row">
         <div class="col-sm-12 col-lg-4 some">
@@ -29,7 +33,6 @@
               <div class="btn-group-vertical b-btns d-flex justify-content-end text-center ">
                 <a href="{%url 'main_page'%}" class="btn btn-lg mb-2 text-white btn-itd">O nas</a>
                 <a href="{%url 'nowosci'%}" class="btn btn-lg mb-2 text-white btn-itd">Nowości</a>
-                <a href="{%url 'uslugi'%}" class="btn btn-lg mb-2 text-white btn-itd">Usługi</a>
                 <a href="{%url 'promocje'%}" class="btn btn-lg mb-2 text-white btn-itd">Promocje</a>
                 <a href="{%url 'humor'%}" class="btn btn-lg mb-2 text-white btn-itd">Humor</a>
                 <a href="#footer" class="btn btn-lg mb-2 text-white btn-itd">Kontakt</a>
@@ -65,13 +68,16 @@
         </div>
         <div class="col-md-2">
           <div class="bgc d-flex justify-content-center">
-            <h3 class="text-center">Umów wizytę
-              {%if user.is_authenticated%}
-              <a href="{%url 'profile'%}">tutaj</a>
-              {%else%} 
-              <a href="{%url 'register'%}">tutaj</a>
-              {%endif%}
-            </h3>
+            <div class="m-2">
+              <h3 class="text-center">Umów wizytę
+                {%if user.is_authenticated%}
+                <a href="{%url 'profile'%}">tutaj</a>
+                {%else%} 
+                <a href="{%url 'register'%}">tutaj</a>
+                {%endif%}
+              </h3>
+            </div>
+
           </div>
         </div>
       </div>
